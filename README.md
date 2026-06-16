@@ -25,3 +25,5 @@ Utilizei a biblioteca Logging para registrar o processo de extração dos dados.
 RF01: Como o dataset foi criado pelo governo brasileiro (através do Banco Central), que tipicamente usa o separador ; e vírgula para decimais, foi necessário usar o parâmetro `sep=';'` e `decimal=','` ao ler o arquivo CSV com o Pandas.
 
 RF01: O dataset é bastante limpo. Portanto, para fins de demonstração de técnicas de limpeza de dados, foi criado um processo de "sujar" o dataset, introduzindo valores nulos, strings com espaços, datas inválidas e valores extremos.
+
+Consistência de idioma: todas as funções e variáveis do projeto, nomes de branches e commits no Github estão nomeadas em inglês, enquanto os comentários e relatórios parciais estão em português para facilitar a compreensão da equipe que corrigirá o projeto, assim como o dataset em si que é produzido pelo Banco Central do Brasil.
