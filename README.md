@@ -35,30 +35,40 @@ Todas as funções e variáveis do projeto, nomes de branches e commits no Githu
 ### Limpeza dos dados
 
 - Foi feita a limpeza de valores textuais, removendo espaços vazios antes ou depois do texto, bem como unificando em apenas um espaço caso houvesse mais de um;
-- Foi feita a transformação da coluna de data, convertendo os valores para objetos datetime e removendo registros com datas inválidas;
-- Foi criada uma função auxiliar para preencher os valores nulos na coluna de nome do conglomerado financeiro tomando como base o código do conglomerado financeiro, já que cada código corresponde a uma instituição financeira específica. (imputação baseada em mapeamento);
-- Foram removidos registros em que o valor "tipo" não correspondia a uma das faixas possíveis do programa. Só existem 3 faixas no programa Desenrola Brasil (1, 2 e 3); valores fora disso são inválidos.
-- Foram removidos a coluna de código do conglomerado financeiro, já que a coluna de nome do conglomerado financeiro é mais legível e já contém a mesma informação.
+- Foi feita a transformação da coluna de data, convertendo os valores para objetos datetime e removendo registros com datas inválidas (530 registros);
+- Foi criada uma função auxiliar para preencher os valores nulos na coluna de nome do conglomerado financeiro, tomando como base o código do conglomerado, já que cada código corresponde a uma instituição específica. (Imputação baseada em mapeamento);
+- Só existem 2 faixas no programa Desenrola Brasil (1 e 2) e uma outra categoria colocada como tipo 3, então valores fora disso são inválidos. Foram removidos, portanto, os registros em que o valor na coluna "tipo" não correspondia a uma dessas 3 opções (56 registros).
+- Foi removida a coluna de código do conglomerado financeiro, já que a coluna de nome do conglomerado financeiro é mais legível e já contém a mesma informação.
 - Foram removidos os registros com valores nulos restantes (46) e duplicados (428).
 
 Ao final da limpeza o dataset passou de 11658 registros para 10598 (o número original antes de ter sido sujo), ou seja, foram removidos 1060 registros durante o processo de limpeza.
 
 ### Tratamento de outliers
 
-Depois de utilizar o método IQR para identificar os outliers, foram encontrados e removidos 2399 registros. Esse número representa um percentual significativo do dataset, indicando que o método do IQR não é adequado para tratar os outliers presentes nesse dataset. Para confirmar essa impressão, foram plotados gráficos de distribuição que confirmaram: a distribuição dos dados é altamente assimétrica e contém muitos valores extremos, o que faz com que o método do IQR identifique uma quantidade excessiva de outliers.
+Ao se testar utilizar o método IQR para identificar os outliers, foram encontrados e removidos 2399 registros. Esse número representa um percentual significativo do dataset, indicando que o método do IQR na escala original não é adequado para tratar os outliers presentes nesse dataset. Para corroborar essa interpretação, foram plotados no notebook gráficos que confirmam que a distribuição dos dados é altamente assimétrica e contém muitos valores extremos — algo comum em dados financeiros — o que faz com que o método do IQR identifique uma quantidade excessiva de outliers.
 
-INFO - Coluna 'NUMERO_OPERACOES': Encontrados 1848 outliers (limite_inferior=-107.50, limite_superior=184.50)
-INFO - Coluna 'VOLUME_OPERACOES': Encontrados 1685 outliers (limite_inferior=-382135.32, limite_superior=639915.60)
+Segundo nosso log:
+'NUMERO_OPERACOES': Encontrados 1848 outliers (limite_inferior=-107.50, limite_superior=184.50)
+'VOLUME_OPERACOES': Encontrados 1685 outliers (limite_inferior=-382135.32, limite_superior=639915.60)
 v1=10598 | v2=8199 | removidas=2399
 
-Apliquei portanto uma escala logarítmica ao método IQR para tentar reduzir a influência dos valores extremos e obter uma detecção de outliers mais realista para esse dataset.
+Apliquei portanto uma escala logarítmica ao método IQR para tentar reduzir a influência dos valores extremos e obter uma detecção de outliers mais adequada para esse dataset.
 
-Para que a função siga sendo flexível, foi adicionado um parâmetro `logarithmic` que, quando definido como `True`, aplica a transformação logarítmica aos dados antes de calcular os limites do IQR. Isso permite que a função seja utilizada tanto para dados com distribuição normal quanto para dados com distribuição altamente assimétrica e valores extremos, como é o caso deste dataset.
+Para que a função siga sendo flexível, foi adicionado um parâmetro `logarithmic` que, quando definido como `True`, aplica a transformação logarítmica aos dados antes de calcular os limites do IQR. Isso permite que a função seja utilizada tanto para dados com distribuição normal quanto para dados com distribuição altamente assimétrica e valores extremos.
 
-INFO - Coluna 'NUMERO_OPERACOES': Encontrados 29 outliers (limite_inferior=-0.98, limite_superior=9689.63)
-INFO - Coluna 'VOLUME_OPERACOES': Encontrados 0 outliers (limite_inferior=-0.67, limite_superior=872928944.90)
+Segundo nosso log:
+'NUMERO_OPERACOES': Encontrados 29 outliers (limite_inferior=-0.98, limite_superior=9689.63)
+'VOLUME_OPERACOES': Encontrados 0 outliers (limite_inferior=-0.67, limite_superior=872928944.90)
 v1=10598 | v2=10569 | removidas=29
 
-A versão v2 será o dataset utilizado nas etapas seguintes de análise.
+Optei por realizar a remoção de outliers utilizando a aplicação da escala logarítmica ao método IQR e produzindo o dataframe v2. A versão v2 será utilizada nas etapas seguintes de análise.
 
 ### Criar Colunas Derivadas com Transformações
+
+Foram criadas colunas derivadas a partir do dataset limpo, entre elas a "FAIXA_VOLUME" com as categorias "Volume Baixo", "Volume Médio" e "Volume Alto" com base na divisão dos dados em terços. Também foram criadas as colunas "LOG_NUMERO_OPERACOES" e "LOG_VOLUME_OPERACOES" com a aplicação da escala logarítmica, para facilitar a análise de dados financeiros.
+
+### Calcular Métricas Agregadas
+
+A coluna TIPO_DESENROLA corresponde principalmente às faixas do programa Desenrola Brasil. A Faixa 1 contempla dívidas de pessoas físicas tenham renda mensal igual ou inferior a 2 (dois) salários mínimos ou estejam inscritas no Cadastro Único para Programas Sociais do Governo Federal (CadÚnico). Já a Faixa 2 contempla dívidas de pessoas físicas que tenham renda mensal superior a 2 (dois) salários mínimos e inferior a R$ 20.000,00 (vinte mil reais), conforme a [Lei nº 14.690, de 2023](https://www.planalto.gov.br/ccivil_03/_ato2023-2026/2023/lei/l14690.htm).
+
+O Sistema de Informações de Créditos (SCR) registra ainda um TIPO 3, mas não fornece informações sobre o que corresponde a esse tipo.
