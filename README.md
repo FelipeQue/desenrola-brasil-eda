@@ -94,9 +94,18 @@ Resultado: na faixa 1 (renda mais baixa), as instituições financeiras campeãs
 ### Segmentar Conglomerados Financeiros por Volume de Operações
 
 As instituições financeiras foram segmentadas de acordo com o volume total de operações renegociadas nas categorias Ouro (acima de 100 milhões), Prata (acima de 1 milhão e abaixo de 100 milhões) e Bronze (abaixo de 1 milhão), resultando na seguinte distribuição:
+Bronze  51 conglomerados financeiros
+Prata   14 conglomerados financeiros
+Ouro    11 conglomerados financeiros
 
-Bronze    51 conglomerados financeiros
-Prata     14 conglomerados financeiros
-Ouro      11 conglomerados financeiros
+### Calcular Estatísticas com NumPy: Ticket Médio
 
-### Calcular Estatísticas com NumPy
+Para exercitar o uso do NumPy foi criado um novo array dos tickets médios de renegociação, calculados a partir do volume de operações dividido pelo número de operações. A partir desse array foram calculadas as seguintes estatísticas:
+- Média do Ticket Médio: 7576.24
+- Desvio Padrão: 25805.85
+- Mediana: 1166.73
+- Percentil 25: 230.88
+- Percentil 75: 3662.40
+
+### Visualizar os dados com gráficos
+
