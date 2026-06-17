@@ -69,6 +69,25 @@ Foram criadas colunas derivadas a partir do dataset limpo, entre elas a "FAIXA_V
 
 ### Calcular Métricas Agregadas
 
-A coluna TIPO_DESENROLA corresponde principalmente às faixas do programa Desenrola Brasil. A Faixa 1 contempla dívidas de pessoas físicas tenham renda mensal igual ou inferior a 2 (dois) salários mínimos ou estejam inscritas no Cadastro Único para Programas Sociais do Governo Federal (CadÚnico). Já a Faixa 2 contempla dívidas de pessoas físicas que tenham renda mensal superior a 2 (dois) salários mínimos e inferior a R$ 20.000,00 (vinte mil reais), conforme a [Lei nº 14.690, de 2023](https://www.planalto.gov.br/ccivil_03/_ato2023-2026/2023/lei/l14690.htm).
+Foram calculadas métricas agregadas através de agrupamentos:
+- Volume de operações por mês
+- Número de operações por mês
+- Volume de de operações por estado
+- Volume de operações por instituição financeira
+- Instituições financeiras campeãs em volume por faixa do programa
 
-O Sistema de Informações de Créditos (SCR) registra ainda um TIPO 3, mas não fornece informações sobre o que corresponde a esse tipo.
+Resultados:
+
+O mês com maior volume de renegociações foi setembro de 2023, com um volume total de mais de R$ 704 milhões. Este dado possivelmente não é fidedigno, pois de acordo com o Banco Central ao descrever o dataset: "apenas para a data-base de setembro de 2023, as informações contemplam operações renegociadas dentro do programa no mês de setembro ou em meses anteriores", ou seja, o volume de setembro de 2023 inclui renegociações de meses anteriores, o que pode ter inflado o valor. Num eventual treinamento de modelo de IA o mês de setembro poderia ser desconsiderado pelo risco de distorção.
+
+Por outro lado, o mês com o maior número de operações foi novembro de 2023, com um total de 346.340 renegociações.
+
+São Paulo, Rio de Janeiro e Minas Gerais lideram o programa em volume de dívidas renegociadas.
+
+E em se tratando de conglomerados financeiros o maior volume de operações ficou em primeiro lugar com o Bradesco, seguido de Santander e Bradesco Prudencial.
+
+#### Instituições financeiras líderes em volume de dívidas renegociadas.
+
+A coluna TIPO_DESENROLA corresponde principalmente às faixas do programa Desenrola Brasil. A Faixa 1 contempla dívidas de pessoas físicas tenham renda mensal igual ou inferior a 2 (dois) salários mínimos ou estejam inscritas no Cadastro Único para Programas Sociais do Governo Federal (CadÚnico). Já a Faixa 2 contempla dívidas de pessoas físicas que tenham renda mensal superior a 2 (dois) salários mínimos e inferior a R$ 20.000,00 (vinte mil reais), conforme a [Lei nº 14.690, de 2023](https://www.planalto.gov.br/ccivil_03/_ato2023-2026/2023/lei/l14690.htm). O Sistema de Informações de Créditos (SCR) registra ainda um TIPO 3, mas não fornece informações sobre o que corresponde a esse tipo.
+
+Resultado: na faixa 1 (renda mais baixa), as instituições financeiras campeãs em renegociações foram na ordem: Nubank, BTG Pactual e Caixa Econômica Federal. Já na faixa 2 (renda mais alta), a instituições financeiras campeãs em renegociações foram Santander, depois Bradesco e em seguida Banco do Brasil.
