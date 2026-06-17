@@ -16,15 +16,14 @@ Foi escolhido um conjunto de dados real do programa Desenrola Brasil, um program
 - Matplotlib 3.11.0
 - Seaborn 0.13.2
 
-Durante o desenvolvimento deste projeto foi utilizado um ambiente virtual (venv) para gerenciar as dependências do projeto, garantindo que as bibliotecas necessárias estejam isoladas.
+- Durante o desenvolvimento deste projeto foi utilizado um ambiente virtual (venv) para gerenciar as dependências do projeto, garantindo que as bibliotecas necessárias estejam isoladas.
 
-Utilizei a biblioteca Logging para registrar o processo de extração dos dados e tratamento de outliers.
+- Utilizei a biblioteca Logging para registrar o processo de extração dos dados e tratamento de outliers.
 
-## Comentários
+## Relatório de desenvolvimento
 
-### Idioma
-
-Todas as funções e variáveis do projeto, nomes de branches e commits no Github estão nomeadas em inglês, enquanto os comentários e relatórios parciais e este README estão em português para facilitar a compreensão da equipe que avaliará o projeto — assim como o dataset em si que é elaborado pelo Banco Central do Brasil.
+#### Idioma
+Todas as funções e variáveis do projeto, nomes de branches e commits no Github estão nomeadas em inglês, enquanto os comentários, relatórios no notebook e este README estão em português para facilitar a compreensão da equipe que avaliará o projeto — assim como o dataset em si que é elaborado pelo Banco Central do Brasil.
 
 ### Extração dos dados
 
@@ -65,7 +64,7 @@ Optei por realizar a remoção de outliers utilizando a aplicação da escala lo
 
 ### Criar Colunas Derivadas com Transformações
 
-Foram criadas colunas derivadas a partir do dataset limpo, entre elas a "FAIXA_VOLUME" com as categorias "Volume Baixo", "Volume Médio" e "Volume Alto" com base na divisão dos dados em terços. Também foram criadas as colunas "LOG_NUMERO_OPERACOES" e "LOG_VOLUME_OPERACOES" com a aplicação da escala logarítmica, para facilitar a análise de dados financeiros.
+Foram criadas colunas derivadas a partir do dataset limpo, entre elas colunas para datas (mês, trimestre e ano) e a "FAIXA_VOLUME" a partir do volume de dinheiro renegociado, com as categorias "Volume Baixo", "Volume Médio" e "Volume Alto" com base na divisão dos dados em terços. Também foram criadas as colunas "LOG_NUMERO_OPERACOES" e "LOG_VOLUME_OPERACOES" com a aplicação da escala logarítmica sobre as colunas numéricas, para facilitar a análise de dados financeiros.
 
 ### Calcular Métricas Agregadas
 
@@ -76,18 +75,28 @@ Foram calculadas métricas agregadas através de agrupamentos:
 - Volume de operações por instituição financeira
 - Instituições financeiras campeãs em volume por faixa do programa
 
-Resultados:
+#### Informações relatadas a partir das métricas
 
-O mês com maior volume de renegociações foi setembro de 2023, com um volume total de mais de R$ 704 milhões. Este dado possivelmente não é fidedigno, pois de acordo com o Banco Central ao descrever o dataset: "apenas para a data-base de setembro de 2023, as informações contemplam operações renegociadas dentro do programa no mês de setembro ou em meses anteriores", ou seja, o volume de setembro de 2023 inclui renegociações de meses anteriores, o que pode ter inflado o valor. Num eventual treinamento de modelo de IA o mês de setembro poderia ser desconsiderado pelo risco de distorção.
+- O mês com maior volume de renegociações foi setembro de 2023, com um volume total de mais de R$ 704 milhões. Este dado possivelmente não é fidedigno, pois de acordo com o Banco Central ao descrever o dataset: "apenas para a data-base de setembro de 2023, as informações contemplam operações renegociadas dentro do programa no mês de setembro ou em meses anteriores", ou seja, o volume de setembro de 2023 inclui renegociações de meses anteriores, o que pode ter inflado o valor. Num eventual treinamento de modelo de IA o mês de setembro poderia ser desconsiderado pelo risco de distorção.
 
-Por outro lado, o mês com o maior número de operações foi novembro de 2023, com um total de 346.340 renegociações.
+- Por outro lado, o mês com o maior número de operações foi novembro de 2023, com um total de 346.340 renegociações.
 
-São Paulo, Rio de Janeiro e Minas Gerais lideram o programa em volume de dívidas renegociadas.
+- São Paulo, Rio de Janeiro e Minas Gerais lideram o programa em volume de dívidas renegociadas.
 
-E em se tratando de conglomerados financeiros o maior volume de operações ficou em primeiro lugar com o Bradesco, seguido de Santander e Bradesco Prudencial.
+- E em se tratando de conglomerados financeiros o maior volume de operações ficou em primeiro lugar com o Bradesco, seguido de Santander e Bradesco Prudencial.
 
-#### Instituições financeiras líderes em volume de dívidas renegociadas.
+#### Instituições financeiras líderes em volume de dívidas renegociadas por faixa do programa (faixa 1 e faixa 2)
 
 A coluna TIPO_DESENROLA corresponde principalmente às faixas do programa Desenrola Brasil. A Faixa 1 contempla dívidas de pessoas físicas tenham renda mensal igual ou inferior a 2 (dois) salários mínimos ou estejam inscritas no Cadastro Único para Programas Sociais do Governo Federal (CadÚnico). Já a Faixa 2 contempla dívidas de pessoas físicas que tenham renda mensal superior a 2 (dois) salários mínimos e inferior a R$ 20.000,00 (vinte mil reais), conforme a [Lei nº 14.690, de 2023](https://www.planalto.gov.br/ccivil_03/_ato2023-2026/2023/lei/l14690.htm). O Sistema de Informações de Créditos (SCR) registra ainda um TIPO 3, mas não fornece informações sobre o que corresponde a esse tipo.
 
 Resultado: na faixa 1 (renda mais baixa), as instituições financeiras campeãs em renegociações foram na ordem: Nubank, BTG Pactual e Caixa Econômica Federal. Já na faixa 2 (renda mais alta), a instituições financeiras campeãs em renegociações foram Santander, depois Bradesco e em seguida Banco do Brasil.
+
+### Segmentar Conglomerados Financeiros por Volume de Operações
+
+As instituições financeiras foram segmentadas de acordo com o volume total de operações renegociadas nas categorias Ouro (acima de 100 milhões), Prata (acima de 1 milhão e abaixo de 100 milhões) e Bronze (abaixo de 1 milhão), resultando na seguinte distribuição:
+
+Bronze    51 conglomerados financeiros
+Prata     14 conglomerados financeiros
+Ouro      11 conglomerados financeiros
+
+### Calcular Estatísticas com NumPy
