@@ -120,13 +120,13 @@ Os dados que temos são de setembro de 2023 até abril de 2026, então os único
 
 #### Gráfico de barras
 
-![Top 10 instituições financeiras por volume de operações](outputs/plots/top_nomes_conglomerados_financeiros_por_volume_operacoes.png)
+![Top 10 instituições financeiras por volume de operações](outputs/plots/top_nome_conglomerado_financeiro_por_volume_operacoes.png)
 
 O gráfico aponta o Bradesco como lídeo absoluto em volume de operações renegociadas, com um volume maior que o dobro do segundo colocado, o Santander. O Bradesco Prudencial, que é uma instituição financeira do mesmo grupo do Bradesco, aparece em terceiro lugar, o que reforça a liderança do grupo Bradesco no programa Desenrola Brasil.
 
 #### Gráfico de barras por faixas 1 e 2 do programa
 
-![Top 5 instituições financeiras por faixa do programa](outputs/plots/top_nomes_conglomerados_financeiros_lado_a_lado_por_volume_operacoes.png)
+![Top 5 instituições financeiras por faixa do programa](outputs/plots/top_nome_conglomerado_financeiro_lado_a_lado_por_volume_operacoes.png)
 
 Conforme vimos nas métricas anteriores, as instituições financeiras possuem focos bem definidos e diferentes em relação às faixas de renda das renegociações, não havendo sobreposição de conglomerados entre os primeiros 4 nomes do ranking de cada faixa.
 
