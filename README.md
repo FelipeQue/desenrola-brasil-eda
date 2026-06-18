@@ -112,7 +112,7 @@ Para exercitar o uso do NumPy foi criado um novo array dos tickets médios de re
 
 As bibliotecas Matplotlib, Seaborn e Squarify foram utilizadas para gerar visualizações para algumas da métricas calculadas a partir deste dataset.
 
-#### Gráfico de linha
+#### Gráfico de linha: Volume total de operações por mês do ano
 
 ![Volume total de operações por mês do ano](outputs/plots/volume_por_mes.png)
 
