@@ -15,6 +15,7 @@ Foi escolhido um conjunto de dados real do programa Desenrola Brasil, um program
 - Numpy 2.4.6
 - Matplotlib 3.11.0
 - Seaborn 0.13.2
+- Squarify 0.4.4 (para plotagem do mapa de árvore)
 
 - Durante o desenvolvimento deste projeto foi utilizado um ambiente virtual (venv) para gerenciar as dependências do projeto, garantindo que as bibliotecas necessárias estejam isoladas.
 
@@ -94,9 +95,9 @@ Resultado: na faixa 1 (renda mais baixa), as instituições financeiras campeãs
 ### Segmentar Conglomerados Financeiros por Volume de Operações
 
 As instituições financeiras foram segmentadas de acordo com o volume total de operações renegociadas nas categorias Ouro (acima de 100 milhões), Prata (acima de 1 milhão e abaixo de 100 milhões) e Bronze (abaixo de 1 milhão), resultando na seguinte distribuição:
-Bronze  51 conglomerados financeiros
-Prata   14 conglomerados financeiros
-Ouro    11 conglomerados financeiros
+- Bronze  51 conglomerados financeiros
+- Prata   14 conglomerados financeiros
+- Ouro    11 conglomerados financeiros
 
 ### Calcular Estatísticas com NumPy: Ticket Médio
 
@@ -109,3 +110,30 @@ Para exercitar o uso do NumPy foi criado um novo array dos tickets médios de re
 
 ### Visualizar os dados com gráficos
 
+As bibliotecas Matplotlib, Seaborn e Squarify foram utilizadas para gerar visualizações para algumas da métricas calculadas a partir deste dataset.
+
+#### Gráfico de linha
+
+![Volume total de operações por mês do ano](outputs/plots/volume_por_mes.png)
+
+Os dados que temos são de setembro de 2023 até abril de 2026, então os únicos anos completos foram 2024 e 2025. Ainda assim, o gráfico de linha sugere visualmente a tendência de que as renegociações crescem em direção ao fim do ano calendário.
+
+#### Gráfico de barras
+
+![Top 10 instituições financeiras por volume de operações](outputs/plots/top_nomes_conglomerados_financeiros_por_volume_operacoes.png)
+
+O gráfico aponta o Bradesco como lídeo absoluto em volume de operações renegociadas, com um volume maior que o dobro do segundo colocado, o Santander. O Bradesco Prudencial, que é uma instituição financeira do mesmo grupo do Bradesco, aparece em terceiro lugar, o que reforça a liderança do grupo Bradesco no programa Desenrola Brasil.
+
+#### Gráfico de barras por faixas 1 e 2 do programa
+
+![Top 5 instituições financeiras por faixa do programa](outputs/plots/top_nomes_conglomerados_financeiros_lado_a_lado_por_volume_operacoes.png)
+
+Conforme vimos nas métricas anteriores, as instituições financeiras possuem focos bem definidos e diferentes em relação às faixas de renda das renegociações, não havendo sobreposição de conglomerados entre os primeiros 4 nomes do ranking de cada faixa.
+
+Usando como referência as renegociações de endividamentos, Nubank, BTG Pactual e Caixa Econômica Federal parecem ter uma maior penetração entre clientes de renda mais baixa.
+
+#### Mapa de árvore (Treemap)
+
+![Volume total de operações por estado](outputs/plots/treemap_volume_operacoes_por_unidade_federacao.png)
+
+O mapa de árvore mostra a distribuição do volume de operações renegociadas por estado. São Paulo é o estado com o maior volume disparado à frente do restante do Brasil, seguido por Rio de Janeiro e Minas Gerais. A visualização destaca certa concentração das renegociações, mas ela pode estar alinhada com a própria distribuição populacional no Brasil, que tem São Paulo, Minas Gerais e Rio de Janeiro como os estados mais populosos.
