@@ -118,13 +118,13 @@ As bibliotecas Matplotlib, Seaborn e Squarify foram utilizadas para gerar visual
 
 Os dados que temos são de setembro de 2023 até abril de 2026, então os únicos anos completos foram 2024 e 2025. Ainda assim, o gráfico de linha sugere visualmente a tendência de que as renegociações crescem em direção ao fim do ano calendário.
 
-#### Gráfico de barras
+#### Gráfico de barras: Top 10 instituições financeiras por volume de operações
 
 ![Top 10 instituições financeiras por volume de operações](outputs/plots/top_nome_conglomerado_financeiro_por_volume_operacoes.png)
 
 O gráfico aponta o Bradesco como lídeo absoluto em volume de operações renegociadas, com um volume maior que o dobro do segundo colocado, o Santander. O Bradesco Prudencial, que é uma instituição financeira do mesmo grupo do Bradesco, aparece em terceiro lugar, o que reforça a liderança do grupo Bradesco no programa Desenrola Brasil.
 
-#### Gráfico de barras por faixas 1 e 2 do programa
+#### Gráfico de barras: Top 5 instituições financeiras nas faixas 1 e 2 do programa
 
 ![Top 5 instituições financeiras por faixa do programa](outputs/plots/top_nome_conglomerado_financeiro_lado_a_lado_por_volume_operacoes.png)
 
@@ -132,8 +132,17 @@ Conforme vimos nas métricas anteriores, as instituições financeiras possuem f
 
 Usando como referência as renegociações de endividamentos, Nubank, BTG Pactual e Caixa Econômica Federal parecem ter uma maior penetração entre clientes de renda mais baixa.
 
-#### Mapa de árvore (Treemap)
+#### Mapa de árvore (Treemap): Volume total de operações por estado
 
 ![Volume total de operações por estado](outputs/plots/treemap_volume_operacoes_por_unidade_federacao.png)
 
 O mapa de árvore mostra a distribuição do volume de operações renegociadas por estado. São Paulo é o estado com o maior volume disparado à frente do restante do Brasil, seguido por Rio de Janeiro e Minas Gerais. A visualização destaca certa concentração das renegociações, mas ela pode estar alinhada com a própria distribuição populacional no Brasil, que tem São Paulo, Minas Gerais e Rio de Janeiro como os estados mais populosos.
+
+#### Gráfico de pizza: Segmentação de instituições financeiras por volume de operações renegociadas
+
+![Segmentação de instituições financeiras por volume de operações renegociadas](outputs/plots/pie_chart_institutions_tiered.png)
+
+Versão em gráfico da segmentação em níveis realizada mais acima.
+- Ouro: Instituições que renegociaram 100 milhões ou mais.
+- Prata: Instituições que renegociaram 1 milhão ou mais, mas menos de 100 milhões.
+- Bronze: Instituições com renegociações abaixo de 1 milhão.
