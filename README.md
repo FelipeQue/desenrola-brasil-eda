@@ -82,7 +82,11 @@ Optei por realizar a remoção de outliers utilizando a aplicação da escala lo
 
 ### Criar Colunas Derivadas com Transformações
 
-Foram criadas colunas derivadas a partir do dataset limpo, entre elas colunas para datas (mês, trimestre e ano) e a "FAIXA_VOLUME" a partir do volume de dinheiro renegociado, com as categorias "Volume Baixo", "Volume Médio" e "Volume Alto" com base na divisão dos dados em terços. Também foram criadas as colunas "LOG_NUMERO_OPERACOES" e "LOG_VOLUME_OPERACOES" com a aplicação da escala logarítmica sobre as colunas numéricas, para facilitar a análise de dados financeiros.
+Foram criadas colunas derivadas a partir do dataset limpo, entre elas as colunas para datas: mês, trimestre e ano. Aqui, optei por utilizar o módulo `dt` do Pandas, de modo que não foi necessário recorrer à bibliotca datetime do Python.
+
+Também foi criada a coluna "FAIXA_VOLUME" a partir do volume de dinheiro renegociado, com as categorias "Volume Baixo", "Volume Médio" e "Volume Alto" com base na divisão dos dados em terços. Nesta parte, em lugar de estipular as condições manualmente e utilizar a função `np.select()`, optei por utilizar a função `pd.qcut()`, que é uma maneira mais eficiente e prática de categorizar os dados com base em quantis, especialmente quando queremos dividir os dados em terços ou quartis como eu fiz.
+
+E por fim, foram criadas as colunas "LOG_NUMERO_OPERACOES" e "LOG_VOLUME_OPERACOES" com a aplicação da escala logarítmica sobre as colunas numéricas, para facilitar possíveis futuras análises que dependam de uma distribuição mais próxima da normal.
 
 ### Calcular Métricas Agregadas
 
@@ -168,7 +172,7 @@ Versão em gráfico da segmentação em níveis realizada mais acima.
 
 O dataset final, já limpo, tratado e com as colunas derivadas, foi exportado para um arquivo CSV chamado `dados_desenrola_final.csv` e está presente na pasta `data/final/` deste repositório. A versão utilizada foi a versão após a remoção de outliers utilizando o método IQR com aplicação de escala logarítmica, ou seja, a versão v2. Tanto a versão v1 (após limpeza, mas antes da remoção de outliers) quanto a versão v2 (após limpeza e remoção de outliers) estão presentes na pasta `data/processed/`.
 
-Além do dataset, o Notebook também exporta as métricas e níveis de instituição financeira (por volume de operações renegociadas) em arquivos CSV, bem como os dados de ticket médio em um arquivo JSON, que foram salvos na pasta `outputs/` deste repositório.
+Além do dataset, o Notebook também exporta as métricas e níveis de instituição financeira (por volume de operações renegociadas) em arquivos CSV, bem como os dados de ticket médio em um arquivo JSON, que foram salvos na pasta `outputs/metrics/` deste repositório.
 
 ## Vídeo de apresentação do projeto
 
