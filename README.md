@@ -7,7 +7,18 @@ analisa e visualiza um dataset, proporcionando métricas e informações. Este p
 
 Foi escolhido um conjunto de dados real do programa Desenrola Brasil, um programa de renegociação de dívidas de pessoas físicas inadimplentes. O dataset é [disponibilizado pelo Banco Central do Brasil](https://dadosabertos.bcb.gov.br/dataset/desenrola-brasil) e contém informações sobre as operações de renegociação, incluindo o número de operações, o volume financeiro renegociado e a distribuição por tipo de operação, instituição financeira e unidade federativa.
 
-## Tecnologias utilizadas (e suas versões)
+## O que o projeto analisa
+
+- Volume de operações por mês
+- Número de operações por mês
+- Volume de de operações por estado
+- Volume de operações por instituição financeira
+- Instituições financeiras campeãs em volume por faixa do programa
+- Segmentação das instituições financeiras em 3 tiers por volume de operações renegociadas
+- Estatísticas do ticket médio de renegociação
+- Visualizações gráficas para algumas das métricas acima
+
+## Tecnologias utilizadas
 
 - Python 3.14.3
 - Jupyter Notebook 7.5.7
@@ -21,12 +32,18 @@ Foi escolhido um conjunto de dados real do programa Desenrola Brasil, um program
 
 - Utilizei a biblioteca Logging para registrar o processo de extração dos dados e tratamento de outliers.
 
+## Como executar o projeto
+
+Instale as dependências do projeto com base na lista de bibliotecas utilizadas acima. Em seguida, execute o Jupyter Notebook `dataview.ipynb` para reproduzir a análise exploratória dos dados do programa Desenrola Brasil. O notebook está organizado em seções que seguem a sequência lógica de um processo de análise de dados, desde a extração e limpeza dos dados até a visualização dos resultados.
+
 ## Relatório de desenvolvimento
 
 #### Idioma
 Todas as funções e variáveis do projeto, nomes de branches e commits no Github estão nomeadas em inglês, enquanto os comentários, relatórios no notebook e este README estão em português para facilitar a compreensão da equipe que avaliará o projeto — assim como o dataset em si que é elaborado pelo Banco Central do Brasil.
 
 ### Extração dos dados
+
+- Buscando aproximar o projeto de aplicações reais, a função de extração de dados no Notebook tenta baixar o arquivo CSV do dataset do programa Desenrola Brasil diretamente do site do Banco Central. Caso o download falhe, a função faz a leitura do arquivo localmente, já previamente baixado e presente neste repositório.
 
 - Como o dataset foi criado pelo governo brasileiro (através do Banco Central), que tipicamente usa o separador ; e vírgula para decimais, foi necessário usar o parâmetro `sep=';'` e `decimal=','` ao ler o arquivo CSV com o Pandas.
 
@@ -45,23 +62,23 @@ Ao final da limpeza o dataset passou de 11658 registros para 10598 (o número or
 
 ### Tratamento de outliers
 
-Ao se testar utilizar o método IQR para identificar os outliers, foram encontrados e removidos 2399 registros. Esse número representa um percentual significativo do dataset, indicando que o método do IQR na escala original não é adequado para tratar os outliers presentes nesse dataset. Para corroborar essa interpretação, foram plotados no notebook gráficos que confirmam que a distribuição dos dados é altamente assimétrica e contém muitos valores extremos — algo comum em dados financeiros — o que faz com que o método do IQR identifique uma quantidade excessiva de outliers.
+Ao se testar utilizar o método IQR para identificar os outliers nas colunas numéricas, foram encontrados e removidos 2399 registros. Esse número representava um percentual significativo do dataset, indicando que o método do IQR na escala original não é adequado para tratar os outliers presentes nesse dataset. Para corroborar essa interpretação, foram plotados no Notebook gráficos que confirmam que a distribuição dos dados é altamente assimétrica e contém muitos valores extremos — algo comum em dados financeiros — o que faz com que o método do IQR identifique uma quantidade excessiva de outliers.
 
 Segundo nosso log:
-'NUMERO_OPERACOES': Encontrados 1848 outliers (limite_inferior=-107.50, limite_superior=184.50)
-'VOLUME_OPERACOES': Encontrados 1685 outliers (limite_inferior=-382135.32, limite_superior=639915.60)
-v1=10598 | v2=8199 | removidas=2399
+- 'NUMERO_OPERACOES': Encontrados 1848 outliers (limite_inferior=-107.50, limite_superior=184.50)
+- 'VOLUME_OPERACOES': Encontrados 1685 outliers (limite_inferior=-382135.32, limite_superior=639915.60)
+- v1=10598 | v2=8199 | removidas=2399
 
-Apliquei portanto uma escala logarítmica ao método IQR para tentar reduzir a influência dos valores extremos e obter uma detecção de outliers mais adequada para esse dataset.
+Foi aplicada, portanto, uma transformação logarítmica às colunas numéricas para tornar a distribuição menos assimétrica, se aproximando mais de uma distribuição normal e portanto se tornando mais adequada à aplicação do método IQR para remoção de outliers.
 
-Para que a função siga sendo flexível, foi adicionado um parâmetro `logarithmic` que, quando definido como `True`, aplica a transformação logarítmica aos dados antes de calcular os limites do IQR. Isso permite que a função seja utilizada tanto para dados com distribuição normal quanto para dados com distribuição altamente assimétrica e valores extremos.
+Para que a função se mantenha flexível, foi adicionado um parâmetro `logarithmic` que, quando definido como `True`, aplica a transformação logarítmica aos dados antes de calcular os limites do IQR. Isso permite que a função seja utilizada tanto para dados com distribuição normal (com `logarithmic=False`) quanto para dados com distribuição altamente assimétrica e muitos valores extremos.
 
 Segundo nosso log:
-'NUMERO_OPERACOES': Encontrados 29 outliers (limite_inferior=-0.98, limite_superior=9689.63)
-'VOLUME_OPERACOES': Encontrados 0 outliers (limite_inferior=-0.67, limite_superior=872928944.90)
-v1=10598 | v2=10569 | removidas=29
+- 'NUMERO_OPERACOES': Encontrados 29 outliers (limite_inferior=-0.98, limite_superior=9689.63)
+- 'VOLUME_OPERACOES': Encontrados 0 outliers (limite_inferior=-0.67, limite_superior=872928944.90)
+- v1=10598 | v2=10569 | removidas=29
 
-Optei por realizar a remoção de outliers utilizando a aplicação da escala logarítmica ao método IQR e produzindo o dataframe v2. A versão v2 será utilizada nas etapas seguintes de análise.
+Optei por realizar a remoção de outliers utilizando a aplicação da escala logarítmica ao método IQR e produzindo o dataframe v2. A versão v2 será utilizada nas etapas seguintes de análise e no dataset final salvo.
 
 ### Criar Colunas Derivadas com Transformações
 
@@ -69,7 +86,7 @@ Foram criadas colunas derivadas a partir do dataset limpo, entre elas colunas pa
 
 ### Calcular Métricas Agregadas
 
-Foram calculadas métricas agregadas através de agrupamentos:
+Foram calculadas métricas agregadas através dos agrupamentos:
 - Volume de operações por mês
 - Número de operações por mês
 - Volume de de operações por estado
@@ -108,7 +125,7 @@ Para exercitar o uso do NumPy foi criado um novo array dos tickets médios de re
 - Percentil 25: 230.88
 - Percentil 75: 3662.40
 
-### Visualizar os dados com gráficos
+## Visualizar os dados com gráficos
 
 As bibliotecas Matplotlib, Seaborn e Squarify foram utilizadas para gerar visualizações para algumas da métricas calculadas a partir deste dataset.
 
@@ -140,9 +157,19 @@ O mapa de árvore mostra a distribuição do volume de operações renegociadas 
 
 #### Gráfico de pizza: Segmentação de instituições financeiras por volume de operações renegociadas
 
-![Segmentação de instituições financeiras por volume de operações renegociadas](outputs/plots/pie_chart_institutions_tiered.png)
+<img src="outputs/plots/pie_chart_institutions_tiered.png" alt="Segmentação de instituições financeiras" width="70%">
 
 Versão em gráfico da segmentação em níveis realizada mais acima.
 - Ouro: Instituições que renegociaram 100 milhões ou mais.
 - Prata: Instituições que renegociaram 1 milhão ou mais, mas menos de 100 milhões.
 - Bronze: Instituições com renegociações abaixo de 1 milhão.
+
+### Exportar resultados
+
+O dataset final, já limpo, tratado e com as colunas derivadas, foi exportado para um arquivo CSV chamado `dados_desenrola_final.csv` e está presente na pasta `data/final/` deste repositório. A versão utilizada foi a versão após a remoção de outliers utilizando o método IQR com aplicação de escala logarítmica, ou seja, a versão v2. Tanto a versão v1 (após limpeza, mas antes da remoção de outliers) quanto a versão v2 (após limpeza e remoção de outliers) estão presentes na pasta `data/processed/`.
+
+Além do dataset, o Notebook também exporta as métricas e níveis de instituição financeira (por volume de operações renegociadas) em arquivos CSV, bem como os dados de ticket médio em um arquivo JSON, que foram salvos na pasta `outputs/` deste repositório.
+
+## Vídeo de apresentação do projeto
+
+![Vídeo de apresentação do projeto]()
