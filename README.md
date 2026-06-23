@@ -1,13 +1,13 @@
-# DataView: Exploração e Análise de Dados do programa Desenrola Brasil
+# 📊 DataView: Exploração e Análise de Dados do programa Desenrola Brasil
 
 Projeto de análise exploratória dos dados do programa Desenrola Brasil desenvolvido em Python através de um Jupyter notebook. O notebook lê, limpa, transforma,
 analisa e visualiza um dataset, proporcionando métricas e informações. Este projeto é parte da avaliação do curso Desenvolvimento de IA para Análise Preditiva do programa SCTEC.
 
-## Os dados: Desenrola Brasil
+## 🏦 Os dados: Desenrola Brasil
 
 Foi escolhido um conjunto de dados real do programa Desenrola Brasil, um programa de renegociação de dívidas de pessoas físicas inadimplentes. O dataset é [disponibilizado pelo Banco Central do Brasil](https://dadosabertos.bcb.gov.br/dataset/desenrola-brasil) e contém informações sobre as operações de renegociação, incluindo o número de operações, o volume financeiro renegociado e a distribuição por tipo de operação, instituição financeira e unidade federativa.
 
-## O que o projeto analisa
+## 🔍 O que o projeto analisa
 
 - Volume de operações por mês
 - Número de operações por mês
@@ -18,7 +18,7 @@ Foi escolhido um conjunto de dados real do programa Desenrola Brasil, um program
 - Estatísticas do ticket médio de renegociação
 - Visualizações gráficas para algumas das métricas acima
 
-## Tecnologias utilizadas
+## 🛠️ Tecnologias utilizadas
 
 - Python 3.14.3
 - Jupyter Notebook 7.5.7
@@ -32,16 +32,16 @@ Foi escolhido um conjunto de dados real do programa Desenrola Brasil, um program
 
 - Utilizei a biblioteca Logging para registrar o processo de extração dos dados e tratamento de outliers.
 
-## Como executar o projeto
+## 🚀 Como executar o projeto
 
 Instale as dependências do projeto com base na lista de bibliotecas utilizadas acima. Em seguida, execute o Jupyter Notebook `dataview.ipynb` para reproduzir a análise exploratória dos dados do programa Desenrola Brasil. O notebook está organizado em seções que seguem a sequência lógica de um processo de análise de dados, desde a extração e limpeza dos dados até a visualização dos resultados.
 
-## Relatório de desenvolvimento
+## 📝 Relatório de desenvolvimento
 
-#### Idioma
+#### 🌐 Idioma
 Todas as funções e variáveis do projeto, nomes de branches e commits no Github estão nomeadas em inglês, enquanto os comentários, relatórios no notebook e este README estão em português para facilitar a compreensão da equipe que avaliará o projeto — assim como o dataset em si que é elaborado pelo Banco Central do Brasil.
 
-### Extração dos dados
+### 📥 Extração dos dados
 
 - Buscando aproximar o projeto de aplicações reais, a função de extração de dados no Notebook tenta baixar o arquivo CSV do dataset do programa Desenrola Brasil diretamente do site do Banco Central. Caso o download falhe, a função faz a leitura do arquivo localmente, já previamente baixado e presente neste repositório.
 
@@ -49,7 +49,7 @@ Todas as funções e variáveis do projeto, nomes de branches e commits no Githu
 
 - O dataset é bastante limpo. Portanto, para fins de demonstração de técnicas de limpeza de dados, foi criado um processo de "sujar" o dataset, introduzindo valores nulos, strings com espaços, datas inválidas e valores extremos.
 
-### Limpeza dos dados
+### 🧼 Limpeza dos dados
 
 - Foi feita a limpeza de valores textuais, removendo espaços vazios antes ou depois do texto, bem como unificando em apenas um espaço caso houvesse mais de um;
 - Foi feita a transformação da coluna de data, convertendo os valores para objetos datetime e removendo registros com datas inválidas (530 registros);
@@ -60,7 +60,7 @@ Todas as funções e variáveis do projeto, nomes de branches e commits no Githu
 
 Ao final da limpeza o dataset passou de 11658 registros para 10598 (o número original antes de ter sido sujo), ou seja, foram removidos 1060 registros durante o processo de limpeza.
 
-### Tratamento de outliers
+### 📈 Tratamento de outliers
 
 Ao se testar utilizar o método IQR para identificar os outliers nas colunas numéricas, foram encontrados e removidos 2399 registros. Esse número representava um percentual significativo do dataset, indicando que o método do IQR na escala original não é adequado para tratar os outliers presentes nesse dataset. Para corroborar essa interpretação, foram plotados no Notebook gráficos que confirmam que a distribuição dos dados é altamente assimétrica e contém muitos valores extremos — algo comum em dados financeiros — o que faz com que o método do IQR identifique uma quantidade excessiva de outliers.
 
@@ -80,7 +80,7 @@ Segundo nosso log:
 
 Optei por realizar a remoção de outliers utilizando a aplicação da escala logarítmica ao método IQR e produzindo o dataframe v2. A versão v2 será utilizada nas etapas seguintes de análise e no dataset final salvo.
 
-### Criar Colunas Derivadas com Transformações
+### 🔄 Criar Colunas Derivadas com Transformações
 
 Foram criadas colunas derivadas a partir do dataset limpo, entre elas as colunas para datas: mês, trimestre e ano. Aqui, optei por utilizar o módulo `dt` do Pandas, de modo que não foi necessário recorrer à bibliotca datetime do Python.
 
@@ -88,7 +88,7 @@ Também foi criada a coluna "FAIXA_VOLUME" a partir do volume de dinheiro renego
 
 E por fim, foram criadas as colunas "LOG_NUMERO_OPERACOES" e "LOG_VOLUME_OPERACOES" com a aplicação da escala logarítmica sobre as colunas numéricas, para facilitar possíveis futuras análises que dependam de uma distribuição mais próxima da normal.
 
-### Calcular Métricas Agregadas
+### 🔢 Calcular Métricas Agregadas
 
 Foram calculadas métricas agregadas através dos agrupamentos:
 - Volume de operações por mês
@@ -97,7 +97,7 @@ Foram calculadas métricas agregadas através dos agrupamentos:
 - Volume de operações por instituição financeira
 - Instituições financeiras campeãs em volume por faixa do programa
 
-#### Informações relatadas a partir das métricas
+#### 💡 Informações relatadas a partir das métricas
 
 - O mês com maior volume de renegociações foi setembro de 2023, com um volume total de mais de R$ 704 milhões. Este dado possivelmente não é fidedigno, pois de acordo com o Banco Central ao descrever o dataset: "apenas para a data-base de setembro de 2023, as informações contemplam operações renegociadas dentro do programa no mês de setembro ou em meses anteriores", ou seja, o volume de setembro de 2023 inclui renegociações de meses anteriores, o que pode ter inflado o valor. Num eventual treinamento de modelo de IA o mês de setembro poderia ser desconsiderado pelo risco de distorção.
 
@@ -107,20 +107,20 @@ Foram calculadas métricas agregadas através dos agrupamentos:
 
 - E em se tratando de conglomerados financeiros o maior volume de operações ficou em primeiro lugar com o Bradesco, seguido de Santander e Bradesco Prudencial.
 
-#### Instituições financeiras líderes em volume de dívidas renegociadas por faixa do programa (faixa 1 e faixa 2)
+#### 🥇 Instituições financeiras líderes em volume de dívidas renegociadas por faixa do programa (faixa 1 e faixa 2)
 
 A coluna TIPO_DESENROLA corresponde principalmente às faixas do programa Desenrola Brasil. A Faixa 1 contempla dívidas de pessoas físicas tenham renda mensal igual ou inferior a 2 (dois) salários mínimos ou estejam inscritas no Cadastro Único para Programas Sociais do Governo Federal (CadÚnico). Já a Faixa 2 contempla dívidas de pessoas físicas que tenham renda mensal superior a 2 (dois) salários mínimos e inferior a R$ 20.000,00 (vinte mil reais), conforme a [Lei nº 14.690, de 2023](https://www.planalto.gov.br/ccivil_03/_ato2023-2026/2023/lei/l14690.htm). O Sistema de Informações de Créditos (SCR) registra ainda um TIPO 3, mas não fornece informações sobre o que corresponde a esse tipo.
 
 Resultado: na faixa 1 (renda mais baixa), as instituições financeiras campeãs em renegociações foram na ordem: Nubank, BTG Pactual e Caixa Econômica Federal. Já na faixa 2 (renda mais alta), a instituições financeiras campeãs em renegociações foram Santander, depois Bradesco e em seguida Banco do Brasil.
 
-### Segmentar Conglomerados Financeiros por Volume de Operações
+### 🗂️ Segmentar Conglomerados Financeiros por Volume de Operações
 
 As instituições financeiras foram segmentadas de acordo com o volume total de operações renegociadas nas categorias Ouro (acima de 100 milhões), Prata (acima de 1 milhão e abaixo de 100 milhões) e Bronze (abaixo de 1 milhão), resultando na seguinte distribuição:
 - Bronze  51 conglomerados financeiros
 - Prata   14 conglomerados financeiros
 - Ouro    11 conglomerados financeiros
 
-### Calcular Estatísticas com NumPy: Ticket Médio
+### 🧮 Calcular Estatísticas com NumPy: Ticket Médio
 
 Para exercitar o uso do NumPy foi criado um novo array dos tickets médios de renegociação, calculados a partir do volume de operações dividido pelo número de operações. A partir desse array foram calculadas as seguintes estatísticas:
 - Média do Ticket Médio: 7576.24
@@ -129,7 +129,7 @@ Para exercitar o uso do NumPy foi criado um novo array dos tickets médios de re
 - Percentil 25: 230.88
 - Percentil 75: 3662.40
 
-## Visualizar os dados com gráficos
+## 📊 Visualizar os dados com gráficos
 
 As bibliotecas Matplotlib, Seaborn e Squarify foram utilizadas para gerar visualizações para algumas da métricas calculadas a partir deste dataset.
 
@@ -168,12 +168,12 @@ Versão em gráfico da segmentação em níveis realizada mais acima.
 - Prata: Instituições que renegociaram 1 milhão ou mais, mas menos de 100 milhões.
 - Bronze: Instituições com renegociações abaixo de 1 milhão.
 
-### Exportar resultados
+### 💾 Exportar resultados
 
 O dataset final, já limpo, tratado e com as colunas derivadas, foi exportado para um arquivo CSV chamado `dados_desenrola_final.csv` e está presente na pasta `data/final/` deste repositório. A versão utilizada foi a versão após a remoção de outliers utilizando o método IQR com aplicação de escala logarítmica, ou seja, a versão v2. Tanto a versão v1 (após limpeza, mas antes da remoção de outliers) quanto a versão v2 (após limpeza e remoção de outliers) estão presentes na pasta `data/processed/`.
 
 Além do dataset, o Notebook também exporta as métricas e níveis de instituição financeira (por volume de operações renegociadas) em arquivos CSV, bem como os dados de ticket médio em um arquivo JSON, que foram salvos na pasta `outputs/metrics/` deste repositório.
 
-## Vídeo de apresentação do projeto
+## 🎥 Vídeo de apresentação do projeto
 
 ![Vídeo de apresentação do projeto]()
