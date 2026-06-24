@@ -176,4 +176,6 @@ Além do dataset, o Notebook também exporta as métricas e níveis de institui�
 
 ## 🎥 Vídeo de apresentação do projeto
 
-[![Vídeo de apresentação do projeto](assets/video-thumb.png)](https://drive.google.com/file/d/1rWg1eCztPDPKlhI1bYKx4lvH-tW_xr5R/view)
+<a href="https://drive.google.com/file/d/1rWg1eCztPDPKlhI1bYKx4lvH-tW_xr5R/view" target="_blank">
+  <img src="assets/video-thumb.png" alt="Vídeo de apresentação do projeto" />
+</a>
